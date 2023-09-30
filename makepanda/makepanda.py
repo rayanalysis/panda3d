@@ -7,7 +7,7 @@
 # panda3d.
 #
 ########################################################################
-
+# python3 makepanda/makepanda.py --everything --wheel --no-opencv --no-egg
 import sys
 if sys.version_info < (3, 8):
     print("This version of Python is not supported, use version 3.8 or higher.")
@@ -3329,39 +3329,39 @@ if not PkgSkip("PANDATOOL"):
     CopyAllHeaders('pandatool/src/pandatoolbase')
     CopyAllHeaders('pandatool/src/converter')
     CopyAllHeaders('pandatool/src/progbase')
-    CopyAllHeaders('pandatool/src/eggbase')
+    # CopyAllHeaders('pandatool/src/eggbase')
     CopyAllHeaders('pandatool/src/bam')
-    CopyAllHeaders('pandatool/src/daeegg')
+    # CopyAllHeaders('pandatool/src/daeegg')
     CopyAllHeaders('pandatool/src/daeprogs')
     CopyAllHeaders('pandatool/src/dxf')
-    CopyAllHeaders('pandatool/src/dxfegg')
+    # CopyAllHeaders('pandatool/src/dxfegg')
     CopyAllHeaders('pandatool/src/dxfprogs')
     CopyAllHeaders('pandatool/src/palettizer')
-    CopyAllHeaders('pandatool/src/egg-mkfont')
-    CopyAllHeaders('pandatool/src/eggcharbase')
-    CopyAllHeaders('pandatool/src/egg-optchar')
-    CopyAllHeaders('pandatool/src/egg-palettize')
-    CopyAllHeaders('pandatool/src/egg-qtess')
-    CopyAllHeaders('pandatool/src/eggprogs')
+    # CopyAllHeaders('pandatool/src/egg-mkfont')
+    # CopyAllHeaders('pandatool/src/eggcharbase')
+    # CopyAllHeaders('pandatool/src/egg-optchar')
+    # CopyAllHeaders('pandatool/src/egg-palettize')
+    # CopyAllHeaders('pandatool/src/egg-qtess')
+    # CopyAllHeaders('pandatool/src/eggprogs')
     CopyAllHeaders('pandatool/src/flt')
-    CopyAllHeaders('pandatool/src/fltegg')
+    # CopyAllHeaders('pandatool/src/fltegg')
     CopyAllHeaders('pandatool/src/fltprogs')
     CopyAllHeaders('pandatool/src/imagebase')
     CopyAllHeaders('pandatool/src/imageprogs')
     CopyAllHeaders('pandatool/src/pfmprogs')
     CopyAllHeaders('pandatool/src/lwo')
-    CopyAllHeaders('pandatool/src/lwoegg')
+    # CopyAllHeaders('pandatool/src/lwoegg')
     CopyAllHeaders('pandatool/src/lwoprogs')
     CopyAllHeaders('pandatool/src/maya')
-    CopyAllHeaders('pandatool/src/mayaegg')
-    CopyAllHeaders('pandatool/src/maxegg')
+    # CopyAllHeaders('pandatool/src/mayaegg')
+    # CopyAllHeaders('pandatool/src/maxegg')
     CopyAllHeaders('pandatool/src/maxprogs')
-    CopyAllHeaders('pandatool/src/objegg')
+    # CopyAllHeaders('pandatool/src/objegg')
     CopyAllHeaders('pandatool/src/objprogs')
     CopyAllHeaders('pandatool/src/vrml')
-    CopyAllHeaders('pandatool/src/vrmlegg')
+    # CopyAllHeaders('pandatool/src/vrmlegg')
     CopyAllHeaders('pandatool/src/xfile')
-    CopyAllHeaders('pandatool/src/xfileegg')
+    # CopyAllHeaders('pandatool/src/xfileegg')
     CopyAllHeaders('pandatool/src/ptloader')
     CopyAllHeaders('pandatool/src/miscprogs')
     CopyAllHeaders('pandatool/src/pstatserver')
@@ -6104,7 +6104,7 @@ if not PkgSkip("CONTRIB"):
     PyTargetAdd('ai.pyd', input='libpandaai.dll')
     PyTargetAdd('ai.pyd', input='libp3interrogatedb.dll')
     PyTargetAdd('ai.pyd', input=COMMON_PANDA_LIBS)
-
+'''
 #
 # DIRECTORY: contrib/src/rplight/
 #
@@ -6125,7 +6125,7 @@ if not PkgSkip("CONTRIB") and not PkgSkip("PYTHON"):
     PyTargetAdd('_rplight.pyd', input='p3rplight_composite1.obj')
     PyTargetAdd('_rplight.pyd', input='libp3interrogatedb.dll')
     PyTargetAdd('_rplight.pyd', input=COMMON_PANDA_LIBS)
-
+'''
 #
 # DIRECTORY: pandatool/src/deploy-stub
 #
@@ -6198,7 +6198,7 @@ if not PkgSkip("DIRECT") and not PkgSkip("EGG"):
         else:
             newname = model[:-4] + ".egg"
         TargetAdd(GetOutputDir()+"/models/"+newname, input="models/"+model)
-
+'''
 if not PkgSkip("DIRECT"):
     CopyAllFiles(GetOutputDir()+"/models/audio/sfx/",  "models/audio/sfx/",      ".wav")
     CopyAllFiles(GetOutputDir()+"/models/icons/",      "models/icons/",          ".gif")
@@ -6207,7 +6207,7 @@ if not PkgSkip("DIRECT"):
     CopyAllFiles(GetOutputDir()+"/models/maps/",       "models/maps/",           ".png")
     CopyAllFiles(GetOutputDir()+"/models/maps/",       "models/maps/",           ".rgb")
     CopyAllFiles(GetOutputDir()+"/models/maps/",       "models/maps/",           ".rgba")
-
+'''
 
 ##########################################################################################
 #
