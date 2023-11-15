@@ -7,15 +7,18 @@
 # panda3d.
 #
 ########################################################################
+# Windows install command
+# makepanda\makepanda.bat --everything --wheel --msvc-version=14.3 --windows-sdk=10 --no-eigen --threads=5 --no-opencv --no-egg
 # Ubuntu dependencies install
 # sudo apt-get install build-essential pkg-config fakeroot python3-dev libpng-dev libjpeg-dev libtiff-dev zlib1g-dev libssl-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxxf86dga-dev libxcursor-dev bison flex libfreetype6-dev libvorbis-dev libeigen3-dev libopenal-dev libode-dev libbullet-dev nvidia-cg-toolkit libgtk-3-dev libassimp-dev libopenexr-dev
 # wheel build command
 # python3 makepanda/makepanda.py --everything --wheel --no-opencv --no-egg --threads 5
 import sys
-if sys.version_info < (3, 8):
+'''
+if sys.version_info < (3, 11):
     print("This version of Python is not supported, use version 3.8 or higher.")
     exit(1)
-
+'''
 try:
     import os
     import time
@@ -33,7 +36,7 @@ except:
     print("Please install the development package of Python and try again.")
     exit(1)
 
-if sys.version_info >= (3, 10):
+if sys.version_info >= (3, 11):
     from sysconfig import get_platform
 else:
     from distutils.util import get_platform
