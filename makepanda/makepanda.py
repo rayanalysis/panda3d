@@ -7,7 +7,10 @@
 # panda3d.
 #
 ########################################################################
-# python3 makepanda/makepanda.py --everything --wheel --no-opencv --no-egg
+# Ubuntu dependencies install
+# sudo apt-get install build-essential pkg-config fakeroot python3-dev libpng-dev libjpeg-dev libtiff-dev zlib1g-dev libssl-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxxf86dga-dev libxcursor-dev bison flex libfreetype6-dev libvorbis-dev libeigen3-dev libopenal-dev libode-dev libbullet-dev nvidia-cg-toolkit libgtk-3-dev libassimp-dev libopenexr-dev
+# wheel build command
+# python3 makepanda/makepanda.py --everything --wheel --no-opencv --no-egg --threads 5
 import sys
 if sys.version_info < (3, 8):
     print("This version of Python is not supported, use version 3.8 or higher.")
@@ -3319,7 +3322,6 @@ if not PkgSkip("DIRECT"):
     CopyAllHeaders('direct/src/directbase')
     CopyAllHeaders('direct/src/dcparser')
     CopyAllHeaders('direct/src/deadrec')
-    CopyAllHeaders('direct/src/distributed')
     CopyAllHeaders('direct/src/interval')
     CopyAllHeaders('direct/src/showbase')
     CopyAllHeaders('direct/src/motiontrail')
@@ -3329,39 +3331,17 @@ if not PkgSkip("PANDATOOL"):
     CopyAllHeaders('pandatool/src/pandatoolbase')
     CopyAllHeaders('pandatool/src/converter')
     CopyAllHeaders('pandatool/src/progbase')
-    # CopyAllHeaders('pandatool/src/eggbase')
     CopyAllHeaders('pandatool/src/bam')
-    # CopyAllHeaders('pandatool/src/daeegg')
-    CopyAllHeaders('pandatool/src/daeprogs')
-    CopyAllHeaders('pandatool/src/dxf')
-    # CopyAllHeaders('pandatool/src/dxfegg')
-    CopyAllHeaders('pandatool/src/dxfprogs')
     CopyAllHeaders('pandatool/src/palettizer')
-    # CopyAllHeaders('pandatool/src/egg-mkfont')
-    # CopyAllHeaders('pandatool/src/eggcharbase')
-    # CopyAllHeaders('pandatool/src/egg-optchar')
-    # CopyAllHeaders('pandatool/src/egg-palettize')
-    # CopyAllHeaders('pandatool/src/egg-qtess')
-    # CopyAllHeaders('pandatool/src/eggprogs')
     CopyAllHeaders('pandatool/src/flt')
-    # CopyAllHeaders('pandatool/src/fltegg')
     CopyAllHeaders('pandatool/src/fltprogs')
     CopyAllHeaders('pandatool/src/imagebase')
     CopyAllHeaders('pandatool/src/imageprogs')
     CopyAllHeaders('pandatool/src/pfmprogs')
     CopyAllHeaders('pandatool/src/lwo')
-    # CopyAllHeaders('pandatool/src/lwoegg')
     CopyAllHeaders('pandatool/src/lwoprogs')
-    CopyAllHeaders('pandatool/src/maya')
-    # CopyAllHeaders('pandatool/src/mayaegg')
-    # CopyAllHeaders('pandatool/src/maxegg')
-    CopyAllHeaders('pandatool/src/maxprogs')
-    # CopyAllHeaders('pandatool/src/objegg')
-    CopyAllHeaders('pandatool/src/objprogs')
     CopyAllHeaders('pandatool/src/vrml')
-    # CopyAllHeaders('pandatool/src/vrmlegg')
     CopyAllHeaders('pandatool/src/xfile')
-    # CopyAllHeaders('pandatool/src/xfileegg')
     CopyAllHeaders('pandatool/src/ptloader')
     CopyAllHeaders('pandatool/src/miscprogs')
     CopyAllHeaders('pandatool/src/pstatserver')
@@ -3372,7 +3352,6 @@ if not PkgSkip("PANDATOOL"):
 
 if not PkgSkip("CONTRIB"):
     CopyAllHeaders('contrib/src/contribbase')
-    CopyAllHeaders('contrib/src/ai')
 
 ########################################################################
 #
@@ -4589,38 +4568,6 @@ if not PkgSkip("GLES2"):
     TargetAdd('p3gles2gsg_gles2gsg.obj', opts=OPTS, input='gles2gsg.cxx')
 
 #
-# DIRECTORY: panda/metalibs/pandaegg/
-#
-
-if not PkgSkip("EGG"):
-    OPTS=['DIR:panda/metalibs/pandaegg', 'DIR:panda/src/egg', 'BUILDING:PANDAEGG']
-    TargetAdd('pandaegg_pandaegg.obj', opts=OPTS, input='pandaegg.cxx')
-
-    TargetAdd('libpandaegg.dll', input='pandaegg_pandaegg.obj')
-    TargetAdd('libpandaegg.dll', input='p3egg2pg_composite1.obj')
-    TargetAdd('libpandaegg.dll', input='p3egg2pg_composite2.obj')
-    TargetAdd('libpandaegg.dll', input='p3egg_composite1.obj')
-    TargetAdd('libpandaegg.dll', input='p3egg_composite2.obj')
-    TargetAdd('libpandaegg.dll', input='p3egg_parser.obj')
-    TargetAdd('libpandaegg.dll', input='p3egg_lexer.obj')
-    TargetAdd('libpandaegg.dll', input=COMMON_PANDA_LIBS)
-    TargetAdd('libpandaegg.dll', opts=['ADVAPI'])
-
-    OPTS=['DIR:panda/metalibs/pandaegg', 'DIR:panda/src/egg']
-    PyTargetAdd('egg_module.obj', input='libp3egg2pg.in')
-    PyTargetAdd('egg_module.obj', input='libp3egg.in')
-    PyTargetAdd('egg_module.obj', opts=OPTS)
-    PyTargetAdd('egg_module.obj', opts=['IMOD:panda3d.egg', 'ILIB:egg', 'IMPORT:panda3d.core'])
-
-    PyTargetAdd('egg.pyd', input='egg_module.obj')
-    PyTargetAdd('egg.pyd', input='p3egg_ext_composite.obj')
-    PyTargetAdd('egg.pyd', input='libp3egg_igate.obj')
-    PyTargetAdd('egg.pyd', input='libp3egg2pg_igate.obj')
-    PyTargetAdd('egg.pyd', input='libpandaegg.dll')
-    PyTargetAdd('egg.pyd', input='libp3interrogatedb.dll')
-    PyTargetAdd('egg.pyd', input=COMMON_PANDA_LIBS)
-
-#
 # DIRECTORY: panda/src/x11display/
 #
 
@@ -4940,8 +4887,6 @@ if not PkgSkip("PVIEW"):
     TargetAdd('pview_pview.obj', opts=OPTS, input='pview.cxx')
     TargetAdd('pview.exe', input='pview_pview.obj')
     TargetAdd('pview.exe', input='libp3framework.dll')
-    if not PkgSkip("EGG"):
-        TargetAdd('pview.exe', input='libpandaegg.dll')
     TargetAdd('pview.exe', input=COMMON_PANDA_LIBS)
     TargetAdd('pview.exe', opts=['ADVAPI', 'WINSOCK2', 'WINSHELL'])
 
@@ -4978,8 +4923,6 @@ if GetTarget() == 'android':
         TargetAdd('libpview.dll', input='android_main.obj')
         TargetAdd('libpview.dll', input='libpview_pview.obj')
         TargetAdd('libpview.dll', input='libp3framework.dll')
-        if not PkgSkip("EGG"):
-            TargetAdd('libpview.dll', input='libpandaegg.dll')
         TargetAdd('libpview.dll', input='libp3android.dll')
         TargetAdd('libpview.dll', input=COMMON_PANDA_LIBS)
         TargetAdd('libpview.dll', opts=['MODULE', 'ANDROID'])
@@ -5110,21 +5053,6 @@ if not PkgSkip("DIRECT"):
     TargetAdd('libp3deadrec.in', opts=['IMOD:panda3d.direct', 'ILIB:libp3deadrec', 'SRCDIR:direct/src/deadrec'])
 
 #
-# DIRECTORY: direct/src/distributed/
-#
-
-if not PkgSkip("DIRECT"):
-    OPTS=['DIR:direct/src/distributed', 'DIR:direct/src/dcparser', 'WITHINPANDA', 'BUILDING:DIRECT']
-    TargetAdd('p3distributed_config_distributed.obj', opts=OPTS, input='config_distributed.cxx')
-
-    OPTS=['DIR:direct/src/distributed', 'WITHINPANDA']
-    IGATEFILES=GetDirectoryContents('direct/src/distributed', ["*.h", "*.cxx"])
-    TargetAdd('libp3distributed.in', opts=OPTS, input=IGATEFILES)
-    TargetAdd('libp3distributed.in', opts=['IMOD:panda3d.direct', 'ILIB:libp3distributed', 'SRCDIR:direct/src/distributed'])
-    PyTargetAdd('p3distributed_cConnectionRepository.obj', opts=OPTS, input='cConnectionRepository.cxx')
-    PyTargetAdd('p3distributed_cDistributedSmoothNodeBase.obj', opts=OPTS, input='cDistributedSmoothNodeBase.cxx')
-
-#
 # DIRECTORY: direct/src/interval/
 #
 
@@ -5181,7 +5109,6 @@ if not PkgSkip("DIRECT"):
     if GetTarget() == 'darwin':
         TargetAdd('libp3direct.dll', input='p3showbase_showBase_assist.obj')
     TargetAdd('libp3direct.dll', input='p3deadrec_composite1.obj')
-    TargetAdd('libp3direct.dll', input='p3distributed_config_distributed.obj')
     TargetAdd('libp3direct.dll', input='p3interval_composite1.obj')
     TargetAdd('libp3direct.dll', input='p3motiontrail_config_motiontrail.obj')
     TargetAdd('libp3direct.dll', input='p3motiontrail_cMotionTrail.obj')
@@ -5192,7 +5119,6 @@ if not PkgSkip("DIRECT"):
     PyTargetAdd('direct_module.obj', input='libp3showbase.in')
     PyTargetAdd('direct_module.obj', input='libp3deadrec.in')
     PyTargetAdd('direct_module.obj', input='libp3interval.in')
-    PyTargetAdd('direct_module.obj', input='libp3distributed.in')
     PyTargetAdd('direct_module.obj', input='libp3motiontrail.in')
     PyTargetAdd('direct_module.obj', opts=['IMOD:panda3d.direct', 'ILIB:direct', 'IMPORT:panda3d.core'])
 
@@ -5201,15 +5127,12 @@ if not PkgSkip("DIRECT"):
     PyTargetAdd('direct.pyd', input='libp3deadrec_igate.obj')
     PyTargetAdd('direct.pyd', input='libp3interval_igate.obj')
     PyTargetAdd('direct.pyd', input='p3interval_cInterval_ext.obj')
-    PyTargetAdd('direct.pyd', input='libp3distributed_igate.obj')
     PyTargetAdd('direct.pyd', input='libp3motiontrail_igate.obj')
 
     # These are part of direct.pyd, not libp3direct.dll, because they rely on
     # the Python libraries.  If a C++ user needs these modules, we can move them
     # back and filter out the Python-specific code.
     PyTargetAdd('direct.pyd', input='p3dcparser_ext_composite.obj')
-    PyTargetAdd('direct.pyd', input='p3distributed_cConnectionRepository.obj')
-    PyTargetAdd('direct.pyd', input='p3distributed_cDistributedSmoothNodeBase.obj')
 
     PyTargetAdd('direct.pyd', input='direct_module.obj')
     PyTargetAdd('direct.pyd', input='libp3direct.dll')
@@ -5292,15 +5215,6 @@ if not PkgSkip("PANDATOOL"):
         TargetAdd('egg2bam.exe', opts=['ADVAPI', 'FFTW'])
 
 #
-# DIRECTORY: pandatool/src/daeegg/
-#
-if not PkgSkip("PANDATOOL") and not PkgSkip("FCOLLADA") and not PkgSkip("EGG"):
-    OPTS=['DIR:pandatool/src/daeegg', 'FCOLLADA']
-    TargetAdd('p3daeegg_composite1.obj', opts=OPTS, input='p3daeegg_composite1.cxx')
-    TargetAdd('libp3daeegg.lib', input='p3daeegg_composite1.obj')
-    TargetAdd('libp3daeegg.lib', opts=['FCOLLADA', 'CARBON'])
-
-#
 # DIRECTORY: pandatool/src/assimp
 #
 if not PkgSkip("PANDATOOL") and not PkgSkip("ASSIMP"):
@@ -5309,96 +5223,6 @@ if not PkgSkip("PANDATOOL") and not PkgSkip("ASSIMP"):
     TargetAdd('libp3assimp.dll', input='p3assimp_composite1.obj')
     TargetAdd('libp3assimp.dll', input=COMMON_PANDA_LIBS)
     TargetAdd('libp3assimp.dll', opts=OPTS+['ZLIB', 'ADVAPI'])
-
-#
-# DIRECTORY: pandatool/src/daeprogs/
-#
-if not PkgSkip("PANDATOOL") and not PkgSkip("FCOLLADA") and not PkgSkip("EGG"):
-    OPTS=['DIR:pandatool/src/daeprogs', 'FCOLLADA']
-    TargetAdd('dae2egg_daeToEgg.obj', opts=OPTS, input='daeToEgg.cxx')
-    TargetAdd('dae2egg.exe', input='dae2egg_daeToEgg.obj')
-    TargetAdd('dae2egg.exe', input='libp3daeegg.lib')
-    TargetAdd('dae2egg.exe', input=COMMON_EGG2X_LIBS)
-    TargetAdd('dae2egg.exe', opts=['WINUSER', 'FCOLLADA', 'CARBON'])
-
-#
-# DIRECTORY: pandatool/src/dxf/
-#
-
-if not PkgSkip("PANDATOOL"):
-    OPTS=['DIR:pandatool/src/dxf']
-    TargetAdd('p3dxf_composite1.obj', opts=OPTS, input='p3dxf_composite1.cxx')
-    TargetAdd('libp3dxf.lib', input='p3dxf_composite1.obj')
-
-#
-# DIRECTORY: pandatool/src/dxfegg/
-#
-
-if not PkgSkip("PANDATOOL") and not PkgSkip("EGG"):
-    OPTS=['DIR:pandatool/src/dxfegg']
-    TargetAdd('p3dxfegg_dxfToEggConverter.obj', opts=OPTS, input='dxfToEggConverter.cxx')
-    TargetAdd('p3dxfegg_dxfToEggLayer.obj', opts=OPTS, input='dxfToEggLayer.cxx')
-    TargetAdd('libp3dxfegg.lib', input='p3dxfegg_dxfToEggConverter.obj')
-    TargetAdd('libp3dxfegg.lib', input='p3dxfegg_dxfToEggLayer.obj')
-
-#
-# DIRECTORY: pandatool/src/dxfprogs/
-#
-
-if not PkgSkip("PANDATOOL"):
-    OPTS=['DIR:pandatool/src/dxfprogs']
-    TargetAdd('dxf-points_dxfPoints.obj', opts=OPTS, input='dxfPoints.cxx')
-    TargetAdd('dxf-points.exe', input='dxf-points_dxfPoints.obj')
-    TargetAdd('dxf-points.exe', input='libp3progbase.lib')
-    TargetAdd('dxf-points.exe', input='libp3dxf.lib')
-    TargetAdd('dxf-points.exe', input='libp3pandatoolbase.lib')
-    TargetAdd('dxf-points.exe', input=COMMON_PANDA_LIBS)
-    TargetAdd('dxf-points.exe', opts=['ADVAPI', 'FFTW'])
-
-    if not PkgSkip("EGG"):
-        TargetAdd('dxf2egg_dxfToEgg.obj', opts=OPTS, input='dxfToEgg.cxx')
-        TargetAdd('dxf2egg.exe', input='dxf2egg_dxfToEgg.obj')
-        TargetAdd('dxf2egg.exe', input='libp3dxfegg.lib')
-        TargetAdd('dxf2egg.exe', input='libp3dxf.lib')
-        TargetAdd('dxf2egg.exe', input=COMMON_EGG2X_LIBS)
-        TargetAdd('dxf2egg.exe', opts=['ADVAPI', 'FFTW'])
-
-        TargetAdd('egg2dxf_eggToDXF.obj', opts=OPTS, input='eggToDXF.cxx')
-        TargetAdd('egg2dxf_eggToDXFLayer.obj', opts=OPTS, input='eggToDXFLayer.cxx')
-        TargetAdd('egg2dxf.exe', input='egg2dxf_eggToDXF.obj')
-        TargetAdd('egg2dxf.exe', input='egg2dxf_eggToDXFLayer.obj')
-        TargetAdd('egg2dxf.exe', input='libp3dxf.lib')
-        TargetAdd('egg2dxf.exe', input=COMMON_EGG2X_LIBS)
-        TargetAdd('egg2dxf.exe', opts=['ADVAPI', 'FFTW'])
-
-#
-# DIRECTORY: pandatool/src/objegg/
-#
-
-if not PkgSkip("PANDATOOL") and not PkgSkip("EGG"):
-    OPTS=['DIR:pandatool/src/objegg']
-    TargetAdd('p3objegg_objToEggConverter.obj', opts=OPTS, input='objToEggConverter.cxx')
-    TargetAdd('p3objegg_eggToObjConverter.obj', opts=OPTS, input='eggToObjConverter.cxx')
-    TargetAdd('p3objegg_config_objegg.obj', opts=OPTS, input='config_objegg.cxx')
-    TargetAdd('libp3objegg.lib', input='p3objegg_objToEggConverter.obj')
-    TargetAdd('libp3objegg.lib', input='p3objegg_eggToObjConverter.obj')
-    TargetAdd('libp3objegg.lib', input='p3objegg_config_objegg.obj')
-
-#
-# DIRECTORY: pandatool/src/objprogs/
-#
-
-if not PkgSkip("PANDATOOL") and not PkgSkip("EGG"):
-    OPTS=['DIR:pandatool/src/objprogs']
-    TargetAdd('obj2egg_objToEgg.obj', opts=OPTS, input='objToEgg.cxx')
-    TargetAdd('obj2egg.exe', input='obj2egg_objToEgg.obj')
-    TargetAdd('obj2egg.exe', input='libp3objegg.lib')
-    TargetAdd('obj2egg.exe', input=COMMON_EGG2X_LIBS)
-
-    TargetAdd('egg2obj_eggToObj.obj', opts=OPTS, input='eggToObj.cxx')
-    TargetAdd('egg2obj.exe', input='egg2obj_eggToObj.obj')
-    TargetAdd('egg2obj.exe', input='libp3objegg.lib')
-    TargetAdd('egg2obj.exe', input=COMMON_EGG2X_LIBS)
 
 #
 # DIRECTORY: pandatool/src/palettizer/
@@ -5735,28 +5559,6 @@ for VER in MAXVERSIONS:
     TargetAdd('maxegg'+VNUM+'.dlo', opts=OPTS)
 
 #
-# DIRECTORY: pandatool/src/maxprogs/
-#
-
-for VER in MAXVERSIONS:
-    VNUM = VER[3:]
-    if PkgSkip(VER) or PkgSkip("PANDATOOL") or PkgSkip("EGG"):
-        continue
-
-    OPTS=['DIR:pandatool/src/maxprogs', VER,  "WINCOMCTL", "WINCOMDLG", "WINUSER", "MSFORSCOPE", "RTTI"]
-    TargetAdd('maxImportRes.res', opts=OPTS, input='maxImportRes.rc')
-    TargetAdd('maxprogs'+VNUM+'_maxeggimport.obj', opts=OPTS, input='maxEggImport.cxx')
-    TargetAdd('maxeggimport'+VNUM+'.dle', input='maxegg'+VNUM+'_loader.obj')
-    TargetAdd('maxeggimport'+VNUM+'.dle', input='maxprogs'+VNUM+'_maxeggimport.obj')
-    TargetAdd('maxeggimport'+VNUM+'.dle', input='libpandaegg.dll')
-    TargetAdd('maxeggimport'+VNUM+'.dle', input='libpanda.dll')
-    TargetAdd('maxeggimport'+VNUM+'.dle', input='libpandaexpress.dll')
-    TargetAdd('maxeggimport'+VNUM+'.dle', input='maxImportRes.res')
-    TargetAdd('maxeggimport'+VNUM+'.dle', input='maxEggImport.def', ipath=OPTS)
-    TargetAdd('maxeggimport'+VNUM+'.dle', input=COMMON_DTOOL_LIBS)
-    TargetAdd('maxeggimport'+VNUM+'.dle', opts=OPTS)
-
-#
 # DIRECTORY: pandatool/src/vrml/
 #
 
@@ -5804,48 +5606,6 @@ if not PkgSkip("PANDATOOL"):
     TargetAdd('libp3xfile.lib', input='p3xfile_composite1.obj')
     TargetAdd('libp3xfile.lib', input='p3xfile_xParser.obj')
     TargetAdd('libp3xfile.lib', input='p3xfile_xLexer.obj')
-
-#
-# DIRECTORY: pandatool/src/xfileegg/
-#
-
-if not PkgSkip("PANDATOOL") and not PkgSkip("EGG"):
-    OPTS=['DIR:pandatool/src/xfileegg', 'DIR:pandatool/src/xfile']
-    TargetAdd('p3xfileegg_composite1.obj', opts=OPTS, input='p3xfileegg_composite1.cxx')
-    TargetAdd('libp3xfileegg.lib', input='p3xfileegg_composite1.obj')
-
-#
-# DIRECTORY: pandatool/src/ptloader/
-#
-
-if not PkgSkip("PANDATOOL") and not PkgSkip("EGG"):
-    if not PkgSkip("FCOLLADA"):
-        DefSymbol("FCOLLADA", "HAVE_FCOLLADA")
-
-    OPTS=['DIR:pandatool/src/ptloader', 'DIR:pandatool/src/flt', 'DIR:pandatool/src/lwo', 'DIR:pandatool/src/xfile', 'DIR:pandatool/src/xfileegg', 'DIR:pandatool/src/daeegg', 'BUILDING:PTLOADER', 'FCOLLADA']
-    TargetAdd('p3ptloader_config_ptloader.obj', opts=OPTS, input='config_ptloader.cxx', dep='dtool_have_fcollada.dat')
-    TargetAdd('p3ptloader_loaderFileTypePandatool.obj', opts=OPTS, input='loaderFileTypePandatool.cxx')
-    TargetAdd('libp3ptloader.dll', input='p3ptloader_config_ptloader.obj')
-    TargetAdd('libp3ptloader.dll', input='p3ptloader_loaderFileTypePandatool.obj')
-    TargetAdd('libp3ptloader.dll', input='libp3fltegg.lib')
-    TargetAdd('libp3ptloader.dll', input='libp3flt.lib')
-    TargetAdd('libp3ptloader.dll', input='libp3lwoegg.lib')
-    TargetAdd('libp3ptloader.dll', input='libp3lwo.lib')
-    TargetAdd('libp3ptloader.dll', input='libp3dxfegg.lib')
-    TargetAdd('libp3ptloader.dll', input='libp3dxf.lib')
-    #TargetAdd('libp3ptloader.dll', input='libp3objegg.lib')
-    TargetAdd('libp3ptloader.dll', input='libp3vrmlegg.lib')
-    TargetAdd('libp3ptloader.dll', input='libp3vrml.lib')
-    TargetAdd('libp3ptloader.dll', input='libp3xfileegg.lib')
-    TargetAdd('libp3ptloader.dll', input='libp3xfile.lib')
-    if not PkgSkip("FCOLLADA"): TargetAdd('libp3ptloader.dll', input='libp3daeegg.lib')
-    TargetAdd('libp3ptloader.dll', input='libp3eggbase.lib')
-    TargetAdd('libp3ptloader.dll', input='libp3progbase.lib')
-    TargetAdd('libp3ptloader.dll', input='libp3converter.lib')
-    TargetAdd('libp3ptloader.dll', input='libp3pandatoolbase.lib')
-    TargetAdd('libp3ptloader.dll', input='libpandaegg.dll')
-    TargetAdd('libp3ptloader.dll', input=COMMON_PANDA_LIBS)
-    TargetAdd('libp3ptloader.dll', opts=['MODULE', 'ADVAPI', 'FCOLLADA', 'WINUSER'])
 
 #
 # DIRECTORY: pandatool/src/miscprogs/
@@ -5945,187 +5705,6 @@ if not PkgSkip("PANDATOOL"):
     TargetAdd('x-trans.exe', input=COMMON_PANDA_LIBS)
     TargetAdd('x-trans.exe', opts=['ADVAPI'])
 
-    if not PkgSkip("EGG"):
-        TargetAdd('egg2x_eggToX.obj', opts=OPTS, input='eggToX.cxx')
-        TargetAdd('egg2x.exe', input='egg2x_eggToX.obj')
-        TargetAdd('egg2x.exe', input='libp3xfileegg.lib')
-        TargetAdd('egg2x.exe', input='libp3xfile.lib')
-        TargetAdd('egg2x.exe', input=COMMON_EGG2X_LIBS)
-        TargetAdd('egg2x.exe', opts=['ADVAPI'])
-
-        TargetAdd('x2egg_xFileToEgg.obj', opts=OPTS, input='xFileToEgg.cxx')
-        TargetAdd('x2egg.exe', input='x2egg_xFileToEgg.obj')
-        TargetAdd('x2egg.exe', input='libp3xfileegg.lib')
-        TargetAdd('x2egg.exe', input='libp3xfile.lib')
-        TargetAdd('x2egg.exe', input=COMMON_EGG2X_LIBS)
-        TargetAdd('x2egg.exe', opts=['ADVAPI'])
-
-#
-# DIRECTORY: pandatool/src/mayaprogs/
-#
-
-MAYA_BUILT = False
-
-for VER in MAYAVERSIONS:
-    VNUM = VER[4:]
-    if PkgSkip(VER) or PkgSkip("PANDATOOL") or PkgSkip("EGG"):
-        continue
-
-    if GetTarget() == 'darwin':
-        if int(VNUM) < 2009:
-            # No x86_64 support.
-            continue
-        if tuple(OSX_ARCHS) == ('arm64',):
-            # No arm64 support.
-            continue
-        ARCH_OPTS = ['NOARCH:ARM64']
-    else:
-        ARCH_OPTS = []
-
-    MAYA_BUILT = True
-
-    OPTS=['DIR:pandatool/src/mayaprogs', 'DIR:pandatool/src/maya', 'DIR:pandatool/src/mayaegg', 'BUILDING:MISC', VER] + ARCH_OPTS
-    TargetAdd('mayaeggimport'+VNUM+'_mayaeggimport.obj', opts=OPTS, input='mayaEggImport.cxx')
-    TargetAdd('mayaeggimport'+VNUM+'.mll', input='mayaegg'+VNUM+'_loader.obj')
-    TargetAdd('mayaeggimport'+VNUM+'.mll', input='mayaeggimport'+VNUM+'_mayaeggimport.obj')
-    TargetAdd('mayaeggimport'+VNUM+'.mll', input='libpandaegg.dll')
-    TargetAdd('mayaeggimport'+VNUM+'.mll', input=COMMON_PANDA_LIBS)
-    TargetAdd('mayaeggimport'+VNUM+'.mll', opts=['ADVAPI', VER]+ARCH_OPTS)
-
-    TargetAdd('mayaloader'+VNUM+'_config_mayaloader.obj', opts=OPTS, input='config_mayaloader.cxx')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='mayaloader'+VNUM+'_config_mayaloader.obj')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libmayaegg'+VNUM+'.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3ptloader.dll')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libmaya'+VNUM+'.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3fltegg.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3flt.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3lwoegg.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3lwo.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3dxfegg.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3dxf.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3objegg.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3vrmlegg.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3vrml.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3xfileegg.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3xfile.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3eggbase.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3progbase.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3converter.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libp3pandatoolbase.lib')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input='libpandaegg.dll')
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', input=COMMON_PANDA_LIBS)
-    TargetAdd('libp3mayaloader'+VNUM+'.dll', opts=['ADVAPI', VER]+ARCH_OPTS)
-
-    TargetAdd('mayapview'+VNUM+'_mayaPview.obj', opts=OPTS, input='mayaPview.cxx')
-    TargetAdd('libmayapview'+VNUM+'.mll', input='mayapview'+VNUM+'_mayaPview.obj')
-    TargetAdd('libmayapview'+VNUM+'.mll', input='libmayaegg'+VNUM+'.lib')
-    TargetAdd('libmayapview'+VNUM+'.mll', input='libmaya'+VNUM+'.lib')
-    TargetAdd('libmayapview'+VNUM+'.mll', input='libp3framework.dll')
-    TargetAdd('libmayapview'+VNUM+'.mll', input=COMMON_EGG2X_LIBS)
-    TargetAdd('libmayapview'+VNUM+'.mll', opts=['ADVAPI', VER]+ARCH_OPTS)
-
-    TargetAdd('mayaprogs'+VNUM+'_eggToMaya.obj', opts=OPTS, input='eggToMaya.cxx')
-    TargetAdd('mayaprogs'+VNUM+'_mayaToEgg.obj', opts=OPTS, input='mayaToEgg.cxx')
-    TargetAdd('mayaprogs_mayaConversionServer.obj', opts=OPTS, input='mayaConversionServer.cxx')
-
-    TargetAdd('maya2egg'+VNUM+'_mayaToEggBin.obj', opts=OPTS, input='mayaToEggBin.cxx')
-    TargetAdd('maya2egg'+VNUM+'_bin.exe', input='mayaprogs'+VNUM+'_eggToMaya.obj')
-    TargetAdd('maya2egg'+VNUM+'_bin.exe', input='mayaprogs'+VNUM+'_mayaToEgg.obj')
-    TargetAdd('maya2egg'+VNUM+'_bin.exe', input='mayaprogs_mayaConversionServer.obj')
-    TargetAdd('maya2egg'+VNUM+'_bin.exe', input='maya2egg'+VNUM+'_mayaToEggBin.obj')
-    TargetAdd('maya2egg'+VNUM+'_bin.exe', input='libmayaegg'+VNUM+'.lib')
-    TargetAdd('maya2egg'+VNUM+'_bin.exe', input='libmaya'+VNUM+'.lib')
-    TargetAdd('maya2egg'+VNUM+'_bin.exe', input=COMMON_EGG2X_LIBS)
-    TargetAdd('maya2egg'+VNUM+'_bin.exe', opts=['ADVAPI', VER]+ARCH_OPTS)
-
-    TargetAdd('egg2maya'+VNUM+'_eggToMayaBin.obj', opts=OPTS, input='eggToMayaBin.cxx')
-    TargetAdd('egg2maya'+VNUM+'_bin.exe', input='mayaprogs'+VNUM+'_eggToMaya.obj')
-    TargetAdd('egg2maya'+VNUM+'_bin.exe', input='mayaprogs'+VNUM+'_mayaToEgg.obj')
-    TargetAdd('egg2maya'+VNUM+'_bin.exe', input='mayaprogs_mayaConversionServer.obj')
-    TargetAdd('egg2maya'+VNUM+'_bin.exe', input='egg2maya'+VNUM+'_eggToMayaBin.obj')
-    TargetAdd('egg2maya'+VNUM+'_bin.exe', input='libmayaegg'+VNUM+'.lib')
-    TargetAdd('egg2maya'+VNUM+'_bin.exe', input='libmaya'+VNUM+'.lib')
-    TargetAdd('egg2maya'+VNUM+'_bin.exe', input=COMMON_EGG2X_LIBS)
-    TargetAdd('egg2maya'+VNUM+'_bin.exe', opts=['ADVAPI', VER]+ARCH_OPTS)
-
-    TargetAdd('mayasavepview'+VNUM+'_mayaSavePview.obj', opts=OPTS, input='mayaSavePview.cxx')
-    TargetAdd('libmayasavepview'+VNUM+'.mll', input='mayasavepview'+VNUM+'_mayaSavePview.obj')
-    TargetAdd('libmayasavepview'+VNUM+'.mll', opts=['ADVAPI', VER]+ARCH_OPTS)
-
-    TargetAdd('mayapath'+VNUM+'.obj', opts=OPTS, input='mayapath.cxx')
-
-    TargetAdd('maya2egg'+VNUM+'.exe', input='mayapath'+VNUM+'.obj')
-    TargetAdd('maya2egg'+VNUM+'.exe', input='libpandaexpress.dll')
-    TargetAdd('maya2egg'+VNUM+'.exe', input=COMMON_DTOOL_LIBS)
-    TargetAdd('maya2egg'+VNUM+'.exe', opts=['ADVAPI']+ARCH_OPTS)
-
-    TargetAdd('egg2maya'+VNUM+'.exe', input='mayapath'+VNUM+'.obj')
-    TargetAdd('egg2maya'+VNUM+'.exe', input='libpandaexpress.dll')
-    TargetAdd('egg2maya'+VNUM+'.exe', input=COMMON_DTOOL_LIBS)
-    TargetAdd('egg2maya'+VNUM+'.exe', opts=['ADVAPI']+ARCH_OPTS)
-
-if MAYA_BUILT:
-    OPTS=['DIR:pandatool/src/mayaprogs', 'DIR:pandatool/src/maya', 'DIR:pandatool/src/mayaegg', 'BUILDING:MISC', 'NOARCH:ARM64']
-
-    TargetAdd('mayaprogs_mayaConversionClient.obj', opts=OPTS, input='mayaConversionClient.cxx')
-
-    TargetAdd('maya2egg_mayaToEggClient.obj', opts=OPTS, input='mayaToEggClient.cxx')
-    TargetAdd('maya2egg_client.exe', input='mayaprogs_mayaConversionClient.obj')
-    TargetAdd('maya2egg_client.exe', input='maya2egg_mayaToEggClient.obj')
-    TargetAdd('maya2egg_client.exe', input=COMMON_EGG2X_LIBS)
-    TargetAdd('maya2egg_client.exe', opts=['NOARCH:ARM64'])
-
-    TargetAdd('egg2maya_eggToMayaClient.obj', opts=OPTS, input='eggToMayaClient.cxx')
-    TargetAdd('egg2maya_client.exe', input='mayaprogs_mayaConversionClient.obj')
-    TargetAdd('egg2maya_client.exe', input='egg2maya_eggToMayaClient.obj')
-    TargetAdd('egg2maya_client.exe', input=COMMON_EGG2X_LIBS)
-    TargetAdd('egg2maya_client.exe', opts=['NOARCH:ARM64'])
-
-#
-# DIRECTORY: contrib/src/ai/
-#
-if not PkgSkip("CONTRIB"):
-    OPTS=['DIR:contrib/src/ai', 'BUILDING:PANDAAI']
-    TargetAdd('p3ai_composite1.obj', opts=OPTS, input='p3ai_composite1.cxx')
-    TargetAdd('libpandaai.dll', input='p3ai_composite1.obj')
-    TargetAdd('libpandaai.dll', input=COMMON_PANDA_LIBS)
-
-    OPTS=['DIR:contrib/src/ai']
-    IGATEFILES=GetDirectoryContents('contrib/src/ai', ["*.h", "*_composite*.cxx"])
-    TargetAdd('libpandaai.in', opts=OPTS, input=IGATEFILES)
-    TargetAdd('libpandaai.in', opts=['IMOD:panda3d.ai', 'ILIB:libpandaai', 'SRCDIR:contrib/src/ai'])
-
-    PyTargetAdd('ai_module.obj', input='libpandaai.in')
-    PyTargetAdd('ai_module.obj', opts=OPTS)
-    PyTargetAdd('ai_module.obj', opts=['IMOD:panda3d.ai', 'ILIB:ai', 'IMPORT:panda3d.core'])
-
-    PyTargetAdd('ai.pyd', input='ai_module.obj')
-    PyTargetAdd('ai.pyd', input='libpandaai_igate.obj')
-    PyTargetAdd('ai.pyd', input='libpandaai.dll')
-    PyTargetAdd('ai.pyd', input='libp3interrogatedb.dll')
-    PyTargetAdd('ai.pyd', input=COMMON_PANDA_LIBS)
-'''
-#
-# DIRECTORY: contrib/src/rplight/
-#
-if not PkgSkip("CONTRIB") and not PkgSkip("PYTHON"):
-    OPTS=['DIR:contrib/src/rplight', 'BUILDING:RPLIGHT']
-    TargetAdd('p3rplight_composite1.obj', opts=OPTS, input='p3rplight_composite1.cxx')
-
-    IGATEFILES=GetDirectoryContents('contrib/src/rplight', ["*.h", "*_composite*.cxx"])
-    TargetAdd('libp3rplight.in', opts=OPTS, input=IGATEFILES)
-    TargetAdd('libp3rplight.in', opts=['IMOD:panda3d._rplight', 'ILIB:libp3rplight', 'SRCDIR:contrib/src/rplight'])
-
-    PyTargetAdd('rplight_module.obj', input='libp3rplight.in')
-    PyTargetAdd('rplight_module.obj', opts=OPTS)
-    PyTargetAdd('rplight_module.obj', opts=['IMOD:panda3d._rplight', 'ILIB:_rplight', 'IMPORT:panda3d.core'])
-
-    PyTargetAdd('_rplight.pyd', input='rplight_module.obj')
-    PyTargetAdd('_rplight.pyd', input='libp3rplight_igate.obj')
-    PyTargetAdd('_rplight.pyd', input='p3rplight_composite1.obj')
-    PyTargetAdd('_rplight.pyd', input='libp3interrogatedb.dll')
-    PyTargetAdd('_rplight.pyd', input=COMMON_PANDA_LIBS)
-'''
 #
 # DIRECTORY: pandatool/src/deploy-stub
 #
