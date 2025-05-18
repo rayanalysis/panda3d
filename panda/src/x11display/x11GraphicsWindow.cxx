@@ -1209,46 +1209,9 @@ open_window() {
 
   set_wm_properties(_properties, false);
 
-  // Initialize the input context, which (if enabled) will enable us to capture
-  // candidate strings and display them inside Panda3D rather than via an
-  // external popup window.
-  XIM im = x11_pipe->get_im();
-  _ic = nullptr;
-  if (im) {
-    if (ime_aware) {
-      XIMCallback start_callback;
-      start_callback.client_data = (XPointer)this;
-      start_callback.callback = (XIMProc)xim_preedit_start;
-      XIMCallback draw_callback;
-      draw_callback.client_data = (XPointer)this;
-      draw_callback.callback = (XIMProc)xim_preedit_draw;
-      XIMCallback caret_callback;
-      caret_callback.client_data = (XPointer)this;
-      caret_callback.callback = (XIMProc)xim_preedit_caret;
-      XIMCallback done_callback;
-      done_callback.client_data = (XPointer)this;
-      done_callback.callback = (XIMProc)xim_preedit_done;
-      XVaNestedList preedit_attributes = XVaCreateNestedList(
-          0,
-          XNPreeditStartCallback, &start_callback,
-          XNPreeditDrawCallback, &draw_callback,
-          XNPreeditCaretCallback, &caret_callback,
-          XNPreeditDoneCallback, &done_callback,
-          nullptr);
-      _ic = XCreateIC(im,
-                      XNInputStyle, XIMPreeditCallbacks | XIMStatusNothing,
-                      XNClientWindow, _xwindow,
-                      XNPreeditAttributes, preedit_attributes,
-                      nullptr);
-    } else {
-      _ic = XCreateIC(im, XNInputStyle, XIMPreeditNothing | XIMStatusNothing,
-                      XNClientWindow, _xwindow, nullptr);
-    }
-    if (_ic == (XIC)nullptr) {
-      x11display_cat.warning()
-        << "Couldn't create input context.\n";
-    }
-  }
+  // X11 IME references were added at commit 4cd579d,
+  // but these cause severe input lag on some common systems, so
+  // we're just not going to use them in this build as of May 18, 2025
 
   if (_properties.get_cursor_hidden()) {
     XDefineCursor(_display, _xwindow, x11_pipe->get_hidden_cursor());
