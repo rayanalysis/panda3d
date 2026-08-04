@@ -7,12 +7,14 @@
 # panda3d.
 #
 ########################################################################
+# nonengine version build command examples
 # Windows install command
 # makepanda\makepanda.bat --everything --wheel --msvc-version=14.3 --windows-sdk=10 --no-eigen --threads=5 --no-opencv --no-egg
 # Ubuntu dependencies install
 # sudo apt-get install build-essential pkg-config fakeroot python3-dev libpng-dev libjpeg-dev libtiff-dev zlib1g-dev libssl-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxxf86dga-dev libxcursor-dev bison flex libfreetype6-dev libvorbis-dev libeigen3-dev libopenal-dev libode-dev libbullet-dev nvidia-cg-toolkit libgtk-3-dev libassimp-dev libopenexr-dev
 # wheel build command
 # python3 makepanda/makepanda.py --everything --wheel --no-opencv --no-egg --threads 5
+
 import sys
 '''
 if sys.version_info < (3, 11):
@@ -2890,7 +2892,7 @@ if not PkgSkip("PYTHON"):
 # This is just some basic stuff since setuptools just needs this file to
 # exist, otherwise it will not read the entry_points.txt file.  Maybe we will
 # eventually want to merge this with the metadata generator in makewheel.py.
-METADATA = """Metadata-Version: 2.0
+METADATA = """Metadata-Version: 2.1
 Name: Panda3D
 Version: {version}
 License: BSD

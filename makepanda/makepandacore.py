@@ -3222,7 +3222,7 @@ def GetMetadataValue(key):
         assert cfg_parser.read(path), "Could not read setup.cfg file."
 
     value = cfg_parser.get('metadata', key)
-    if key == 'classifiers':
+    if key in ['license_files','classifiers']:
         value = value.strip().split('\n')
     return value
 
