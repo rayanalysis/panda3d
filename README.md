@@ -1,1 +1,1 @@
-nonengine is a minimal PBR IBL engine descended from Panda3D.
+nonengine is a stripped-down PC game engine which supports PBR IBL rendering in an elegant and minimal package.

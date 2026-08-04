@@ -104,7 +104,7 @@ PROJECT_URLS = dict([line.split('=', 1) for line in GetMetadataValue('project_ur
 METADATA = {
     "license": GetMetadataValue('license'),
     "name": GetMetadataValue('name'),
-    "metadata_version": "2.0",
+    "metadata_version": "2.1",
     "generator": "makepanda",
     "summary": GetMetadataValue('description'),
     "extensions": {
@@ -121,8 +121,8 @@ METADATA = {
                 }
             ]
         }
-    },
-    "classifiers": GetMetadataValue('classifiers'),
+    }  #,
+    # "classifiers": GetMetadataValue('classifiers'),
 }
 
 DESCRIPTION = """
@@ -193,8 +193,16 @@ def _exec_tool(tool):
 # Register all the executables in this directory as global functions.
 {0}
 """
+"""
+import packaging.metadata
 
-
+# Add '2.0' to the list of valid versions
+if "2.0" not in packaging.metadata._VALID_METADATA_VERSIONS:
+    packaging.metadata._VALID_METADATA_VERSIONS = [
+        *packaging.metadata._VALID_METADATA_VERSIONS, 
+        "2.0"
+    ]   
+"""
 def parse_dependencies_windows(data):
     """ Parses the given output from dumpbin /dependents to determine the list
     of dll's this executable file depends on. """
@@ -675,7 +683,12 @@ def makewheel(version, output_dir, platform=None):
     details = METADATA["extensions"]["python.details"]
     homepage = details["project_urls"]["Home"]
     author = details["contacts"][0]["name"]
+    print("This is the base level author text from 'details': " + author)
     email = details["contacts"][0]["email"]
+    custom_platform = "manylinux_2_28_x86_64"
+    description = "nonengine is minimal"
+    description_content_type = "text/plain"
+    
     metadata = ''.join([
         "Metadata-Version: {metadata_version}\n" \
         "Name: {name}\n" \
@@ -686,13 +699,18 @@ def makewheel(version, output_dir, platform=None):
     ] + ["Project-URL: {0}, {1}\n".format(*url) for url in PROJECT_URLS.items()] + [
         "Author: {0}\n".format(author),
         "Author-email: {0}\n".format(email),
-        "Platform: {0}\n".format(platform),
-    ] + ["Classifier: {0}\n".format(c) for c in METADATA['classifiers']])
+        # "Platform: {0}\n".format(platform),  # we'll just avoid using this for now
+        "Platform: {0}\n".format(custom_platform),
+        "Description: {0}\n".format(description),
+        "Description-Content-Type: {0}\n".format(description_content_type),
+    ]) #+ ["Classifier: {0}\n".format(c) for c in METADATA['classifiers']])
 
-    metadata += '\n' + DESCRIPTION.strip() + '\n'
+    print(metadata)
+    # metadata += '\n' + DESCRIPTION.strip() + '\n'
 
     # Zip it up and name it the right thing
-    whl = WheelFile('panda3d', version, platform)
+    # whl = WheelFile('panda3d', version, platform)
+    whl = WheelFile('nonengine', version, custom_platform)
     whl.lib_path = [libs_dir]
 
     if is_windows:
@@ -905,4 +923,4 @@ if __name__ == "__main__":
     (options, args) = parser.parse_args()
 
     SetVerbose(options.verbose)
-    makewheel(options.version, options.outputdir, options.platform)
+    makewheel("1.11.0", options.outputdir, options.platform)
