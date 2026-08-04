@@ -900,7 +900,8 @@ if __debug__:
     whl.write_file_data('panda3d_tools/__init__.py', PANDA3D_TOOLS_INIT.format(tools_init))
 
     # Add the dist-info directory last.
-    info_dir = 'panda3d-{0}.dist-info'.format(version)
+    # info_dir = 'panda3d-{0}.dist-info'.format(version)
+    info_dir = 'nonengine-{0}.dist-info'.format(version)
     whl.write_file_data(info_dir + '/entry_points.txt', entry_points)
     whl.write_file_data(info_dir + '/metadata.json', json.dumps(METADATA, indent=4, separators=(',', ': ')))
     whl.write_file_data(info_dir + '/METADATA', metadata)

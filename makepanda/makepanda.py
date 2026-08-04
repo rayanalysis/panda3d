@@ -2893,12 +2893,12 @@ if not PkgSkip("PYTHON"):
 # exist, otherwise it will not read the entry_points.txt file.  Maybe we will
 # eventually want to merge this with the metadata generator in makewheel.py.
 METADATA = """Metadata-Version: 2.1
-Name: Panda3D
-Version: {version}
-License: BSD
-Home-page: https://www.panda3d.org/
-Author: Panda3D Team
-Author-email: etc-panda3d@lists.andrew.cmu.edu
+Name: nonengine
+Version: 1.11.0
+License: BSD-3-Clause and 3-Clause BSD NON-AI License
+Home-page: https://github.com/nonengine/nonengine/
+Author: Logan Bier and Panda3D Team
+Author-email: loganbierdev@gmail.com
 """
 
 ENTRY_POINTS = """[distutils.commands]
