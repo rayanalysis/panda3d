@@ -483,11 +483,15 @@ def MakeInstallerOSX(version, python_versions=[], installdir=None, **kwargs):
         oscmd("cp -R %s/*.py                  dstroot/pythoncode/%s/" % (outputdir, installdir), True)
         if os.path.isdir(outputdir+"/Pmw"):
             oscmd("cp -R %s/Pmw               dstroot/pythoncode/%s/Pmw" % (outputdir, installdir))
-
+        '''
         # Copy over panda3d.dist-info directory.
         if os.path.isdir(outputdir + "/panda3d.dist-info"):
             oscmd("cp -R %s/panda3d.dist-info dstroot/pythoncode/%s/panda3d.dist-info" % (outputdir, installdir))
-
+        '''
+        # Copy over nonengine.dist-info directory.
+        if os.path.isdir(outputdir + "/nonengine.dist-info"):
+            oscmd("cp -R %s/nonengine.dist-info dstroot/pythoncode/%s/nonengine.dist-info" % (outputdir, installdir))
+            
         for base in os.listdir(outputdir + "/panda3d"):
             if base.endswith('.py'):
                 libname = ("dstroot/pythoncode/%s/panda3d/" % installdir) + base
