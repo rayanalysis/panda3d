@@ -17,6 +17,12 @@ nonengine is roughly ~500,000 lines smaller than Panda3D. Many systems, includin
 
 nonengine does not include any upstream Panda3D commits made since September 29th, 2023 .
 
+## Installing with PyPI:
+Currently, nonengine is a Linux-only wheel distribution.
+```bash
+pip install nonengine
+```
+
 
 
 

@@ -1,5 +1,6 @@
 # makepanda directories
 /built*/
+/dist*/
 /thirdparty/
 /targetroot/
 /dstroot/

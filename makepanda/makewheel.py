@@ -686,7 +686,7 @@ def makewheel(version, output_dir, platform=None):
     print("This is the base level author text from 'details': " + author)
     email = details["contacts"][0]["email"]
     custom_platform = "manylinux_2_28_x86_64"
-    description = "nonengine is minimal"
+    description = "nonengine is a minimal PBR IBL engine descended from Panda3D. Usage is intended to be compatible with most existing Panda3D programs. nonengine is intended to work with complexpbr for PBR IBL real-time scene rendering." + " nonengine, starting Sep 29, 2023, does not allow usage for AI-training purposes or inclusion in an AI-dataset. nonengine is believed to be entirely free of generative AI contributions and does not accept PRs made with generative AI technology." + " Other than that, you are free to do with nonengine as you like, including building commercial projects with it. See new_license.txt at the Homepage link for details and engine sample screenshots." + " nonengine is roughly ~500,000 lines smaller than Panda3D. Many systems, including 'tests', 'distributed', and 'PandAI' among many others have been carefully removed. The engine has been significantly refactored to support a leaner profile." + " nonengine does not include any upstream Panda3D commits made since September 29th, 2023 ."
     description_content_type = "text/plain"
     
     metadata = ''.join([
@@ -696,7 +696,7 @@ def makewheel(version, output_dir, platform=None):
         "Summary: {summary}\n" \
         "License: {license}\n".format(**METADATA),
         "Home-page: {0}\n".format(homepage),
-    ] + ["Project-URL: {0}, {1}\n".format(*url) for url in PROJECT_URLS.items()] + [
+    ] + [
         "Author: {0}\n".format(author),
         "Author-email: {0}\n".format(email),
         # "Platform: {0}\n".format(platform),  # we'll just avoid using this for now
@@ -924,4 +924,4 @@ if __name__ == "__main__":
     (options, args) = parser.parse_args()
 
     SetVerbose(options.verbose)
-    makewheel("1.11.0", options.outputdir, options.platform)
+    makewheel("1.12.0", options.outputdir, options.platform)
